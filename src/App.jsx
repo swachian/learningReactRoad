@@ -5,15 +5,14 @@ import './App.css'
 
 const welcome = {
   first: 'New',
-  second: 'start2'
+  second: 'start2' 
 }
 
-const title2 = "aaa"
 
 function App() {
   const [count, setCount] = useState(0)
 
-  return (
+  return ( 
     <>
     {/* <title>{title}</title> */}
 
