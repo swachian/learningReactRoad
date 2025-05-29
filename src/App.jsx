@@ -3,20 +3,31 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+const welcome = {
+  first: 'New',
+  second: 'start2'
+}
+
+const title2 = "aaa"
+
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
+    {/* <title>{title}</title> */}
+
       <div>
-        <a href="https://vite.dev" target="_blank">
+        <a href="https://vite.dev" rel="noreferrer" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
-        <a href="https://react.dev" target="_blank">
+        <a href="https://react.dev" target="_blank"> 
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1>{welcome.first} {welcome.second}</h1>
+      <label htmlFor="search">Search</label>
+      <input type="text" name="search" />
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
