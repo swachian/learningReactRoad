@@ -8,28 +8,32 @@ const welcome = {
   second: 'start2' 
 }
 
-const list = [
-  {
-  title: 'React',
-  url: 'https://reactjs.org/',
-  author: 'Jordan Walke',
-  num_comments: 3,
-  points: 4,
-  objectID: 0,
-  },
-  {
-  title: 'Redux',
-  url: 'https://redux.js.org/',
-  author: 'Dan Abramov, Andrew Clark',
-  num_comments: 2,
-  points: 5,
-  objectID: 1,
-},
-];
+
 
 function App() {
   const [count, setCount] = useState(0)
+  const [currentValue, setCurrentValue] = useState('na')
 
+  const list = [
+    {
+    title: 'React',
+    url: 'https://reactjs.org/',
+    author: 'Jordan Walke',
+    num_comments: 3,
+    points: 4,
+    objectID: 0,
+    },
+    {
+    title: 'Redux',
+    url: 'https://redux.js.org/',
+    author: 'Dan Abramov, Andrew Clark',
+    num_comments: 2,
+    points: 5,
+    objectID: 1,
+  },
+  ];
+
+  const searchedStories = list.filter( l => !currentValue || l.title.includes(currentValue))
   return ( 
     <>
     {/* <title>{title}</title> */}
@@ -42,9 +46,10 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <List />
+      <List list={searchedStories} />
 
-      <Search />
+
+      <Search currentValue={currentValue} setCurrentValue={setCurrentValue}/>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -60,11 +65,11 @@ function App() {
   )
 }
 
-function Search() {
+function Search(props) {
+  console.log('Search Component')
+  
   function handleChange(e) {
-    console.dir(e.target.value)
-    console.log(e)
-    e.target.value = "888"
+    props.setCurrentValue(e.target.value)
     
   }
   return (
@@ -72,21 +77,31 @@ function Search() {
     <label htmlFor="search">Search</label> 
     
     <input type="text" name="search" onChange={handleChange}/>
+    <p>{props.currentValue}</p>
     </div>
   )
 }
 
-function List() {
+function List(props) {
+  console.log('List Component')
+
   return (
-    <h1>{welcome.first} {welcome.second} {list.map(e => {
-      return (
-          <li key={e.objectID}>
-            <span>{e.title}</span>
-            <span>{e.author}</span> 
-            <span> {e.points}</span>
-          </li>
-        )
-  })}</h1>
+    <h1>{props.list.map(e => 
+      <Item key={e.objectID} element={e}/>
+  )}</h1>
+  )
+}
+
+function Item(props) {
+  console.log('Item Component')
+
+  const e = props.element
+  return (
+    <li key={e.objectID}> 
+      <span> {e.title}</span>
+      <span> {e.author}</span> 
+      <span> {e.points}</span>
+    </li>
   )
 }
 
