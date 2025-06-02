@@ -35,17 +35,14 @@ function App() {
   const [count, setCount] = useState(0)
   const [currentValue, setCurrentValue] = useState('')
 
-  useEffect(() => {
-    console.log(`currentValue is changed to ${currentValue}`)
-  }, [currentValue])
-
-
   const storiesReducer = (stories, action) => {
     switch (action.type) {
       case 'SET_STORIES':
         return action.payload
       case 'DELETE_STORY':
         return stories.filter(s => s != action.payload)
+      case 'FILTER_STORY':
+        return stories.filter(s => s.title.includes(action.payload))
       default:
         throw new Error(`Invalid action ${action}`)
     }
@@ -60,17 +57,25 @@ function App() {
   }
 
   useEffect(() => {
+    getAyncData(currentValue).then((data) => {
+      setSearchedStories({type: 'SET_STORIES', payload: data})
+    })
+      // setSearchedStories({type: 'FILTER_STORY', payload: currentValue})
+
+  }, [currentValue])
+
+  useEffect(() => {
     getAyncData().then((data) => {
       setSearchedStories({type: 'SET_STORIES', payload: data})
     })
   }, [])
 
-  function getAyncData() {
+  function getAyncData(param='react') {
     // return new Promise((resolve) => {
     //   setTimeout(() => resolve({list2}), 2000)
     // })
 
-    return fetch(`${API_ENDPOINT}react`)
+    return fetch(`${API_ENDPOINT}${param}`)
       .then(response => response.json())
       .then(data => data.hits)
   }
