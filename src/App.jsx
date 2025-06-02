@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useReducer } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -37,23 +37,28 @@ function App() {
     console.log(`currentValue is changed to ${currentValue}`)
   }, [currentValue])
 
-  const filterList = (list) => list.filter( l => !currentValue || l.title.includes(currentValue))
 
-  const [searchedStories, setSearchedStories] = useState([])
+  const storiesReducer = (stories, action) => {
+    switch (action.type) {
+      case 'SET_STORIES':
+        return action.payload
+      case 'DELETE_STORY':
+        return stories.filter(s => s != action.payload)
 
-  const refreshList = () => {setSearchedStories(filterList(list))}
+    }
+  }
+
+
+  const [searchedStories, setSearchedStories] = useReducer(storiesReducer, [])
 
   const removeOneItem = (item) => {
-    const index = list.indexOf(item)
-    list.splice(index,1)
-    refreshList()
+    setSearchedStories({type: 'DELETE_STORY', payload: item})
     
   }
 
   useEffect(() => {
-    getAyncData().then(data => {
-      list = list2
-      refreshList()
+    getAyncData().then(() => {
+      setSearchedStories({type: 'SET_STORIES', payload: list2})
     })
   }, [])
 
