@@ -29,6 +29,8 @@ const list2 = [
 },
 ]
 
+const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query='
+
 function App() {
   const [count, setCount] = useState(0)
   const [currentValue, setCurrentValue] = useState('')
@@ -44,7 +46,8 @@ function App() {
         return action.payload
       case 'DELETE_STORY':
         return stories.filter(s => s != action.payload)
-
+      default:
+        throw new Error(`Invalid action ${action}`)
     }
   }
 
@@ -57,15 +60,19 @@ function App() {
   }
 
   useEffect(() => {
-    getAyncData().then(() => {
-      setSearchedStories({type: 'SET_STORIES', payload: list2})
+    getAyncData().then((data) => {
+      setSearchedStories({type: 'SET_STORIES', payload: data})
     })
   }, [])
 
   function getAyncData() {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve({list2}), 2000)
-    })
+    // return new Promise((resolve) => {
+    //   setTimeout(() => resolve({list2}), 2000)
+    // })
+
+    return fetch(`${API_ENDPOINT}react`)
+      .then(response => response.json())
+      .then(data => data.hits)
   }
 
   return ( 
