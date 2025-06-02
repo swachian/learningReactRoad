@@ -117,14 +117,17 @@ function Search({currentValue, setCurrentValue, children}) {
   console.log('Search Component')
   
   function handleChange(e) {
-    setCurrentValue(e.target.value)
+    const searchBox = document.querySelector("#search")
+    console.log(searchBox)
+    setCurrentValue(searchBox?.value)
     
   }
   return (
     <div>
     <label htmlFor="search">{children}</label> 
     
-    <input type="text" name="search" onChange={handleChange} />
+    <input id="search" type="text" name="search" />
+    <button onClick={handleChange}>confirm</button>
     <p>{currentValue}</p>
     </div>
   )
