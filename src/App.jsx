@@ -92,7 +92,7 @@ function App() {
     //   .then(data => data.hits)
     const response = await fetch(`${API_ENDPOINT}${param}`)
     const json = await response.json()
-    return await json.hits
+    return json.hits
   }
 
   return ( 
