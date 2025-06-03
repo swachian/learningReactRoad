@@ -57,27 +57,42 @@ function App() {
   }
 
   useEffect(() => {
-    getAyncData(currentValue).then((data) => {
+    // getAyncData(currentValue).then((data) => {
+    //   setSearchedStories({type: 'SET_STORIES', payload: data})
+      
+    // })
+
+    const fetch = async () => {
+      const data = await getAyncData()
       setSearchedStories({type: 'SET_STORIES', payload: data})
-    })
-      // setSearchedStories({type: 'FILTER_STORY', payload: currentValue})
+    }
+    
+    fetch()
 
   }, [currentValue])
 
   useEffect(() => {
-    getAyncData().then((data) => {
+
+    const fetch = async () => {
+      const data = await getAyncData()
       setSearchedStories({type: 'SET_STORIES', payload: data})
-    })
+    }
+    
+    fetch()
+
   }, [])
 
-  function getAyncData(param='react') {
+  async function getAyncData(param='react') {
     // return new Promise((resolve) => {
     //   setTimeout(() => resolve({list2}), 2000)
     // })
 
-    return fetch(`${API_ENDPOINT}${param}`)
-      .then(response => response.json())
-      .then(data => data.hits)
+    // return fetch(`${API_ENDPOINT}${param}`)
+    //   .then(response => response.json())
+    //   .then(data => data.hits)
+    const response = await fetch(`${API_ENDPOINT}${param}`)
+    const json = await response.json()
+    return await json.hits
   }
 
   return ( 
