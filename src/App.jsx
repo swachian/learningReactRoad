@@ -1,7 +1,11 @@
 import { useState, useEffect, useReducer } from 'react'
+// import * as React from 'react';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
+import styles from './App.module.css'
+
+import Check from "./assets/check.svg?react";
+
 
 const welcome = {
   first: 'New',
@@ -63,7 +67,7 @@ function App() {
     // })
 
     const fetch = async () => {
-      const data = await getAyncData()
+      const data = await getAyncData(currentValue)
       setSearchedStories({type: 'SET_STORIES', payload: data})
     }
     
@@ -96,7 +100,7 @@ function App() {
   }
 
   return ( 
-    <>
+    <div className={styles.container}>
     {/* <title>{title}</title> */}
 
       <div>
@@ -124,7 +128,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-    </>
+    </div>
   )
 }
 
@@ -142,7 +146,7 @@ function Search({currentValue, setCurrentValue, children}) {
     <label htmlFor="search">{children}</label> 
     
     <input id="search" type="text" name="search" />
-    <button onClick={handleChange}>confirm</button>
+    <button onClick={handleChange} className={`${styles.button} ${styles.buttonLarge}`}><Check height="18px" width="18px" /></button>
     <p>{currentValue}</p>
     </div>
   )
@@ -154,7 +158,7 @@ function List({list, removeOneItem}) {
     return <div>暂无数据，请尝试其他搜索条件</div>; // 空状态提示
   }
   return (
-    <h1>{list.map(e => 
+    <h1 className={styles.headlinePrimary}>{list.map(e => 
       <Item key={e.objectID} element={e} removeOneItem={removeOneItem} />
   )}</h1>
   )
@@ -168,7 +172,7 @@ function Item({element, removeOneItem}) {
     removeOneItem(element)
   }
   return (
-    <li key={element.objectID}> 
+    <li key={element.objectID} className={styles.item}> 
       <span> {element.title}</span>
       <span> {element.author}</span> 
       <span> {element.points}</span>
