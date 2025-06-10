@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer, ReactNode, FC } from 'react'
+import { useState, useEffect, useReducer, ReactNode } from 'react'
 // import * as React from 'react';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -145,7 +145,7 @@ type SearchProps = {
   children: ReactNode;
 }
 
-const Search: FC<SearchProps> =  ({currentValue, setCurrentValue, children}) => {
+const Search = ({currentValue, setCurrentValue, children} : SearchProps) => {
   console.log('Search Component')
   
   function handleChange() {
@@ -169,7 +169,7 @@ type ListProps = {
   list: Story[],
   removeOneItem: (item: Story) => void
 }
-const List: FC<ListProps> = ({list, removeOneItem}) => {
+const List = ({list, removeOneItem}: ListProps) => {
   console.log('List Component')
   if (!list || list.length === 0) {
     return <div>暂无数据，请尝试其他搜索条件</div>; // 空状态提示
@@ -184,7 +184,7 @@ type ItemProps = {
   element: Story,
   removeOneItem: (item: Story) => void
 }
-const Item: FC<ItemProps> = ({element, removeOneItem}) => {
+const Item = ({element, removeOneItem}: ItemProps) => {
   console.log('Item Component')
 
   function removeLi() {
