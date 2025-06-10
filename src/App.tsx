@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from 'react'
+import { useState, useEffect, useReducer, ReactNode, FC } from 'react'
 // import * as React from 'react';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
@@ -7,31 +7,39 @@ import styles from './App.module.css'
 import Check from "./assets/check.svg?react";
 
 
-const welcome = {
-  first: 'New',
-  second: 'start2' 
+// const list2 = [
+//   {
+//   title: 'React',
+//   url: 'https://reactjs.org/',
+//   author: 'Jordan Walke',
+//   num_comments: 3,
+//   points: 4,
+//   objectID: 0,
+//   },
+//   {
+//   title: 'Redux',
+//   url: 'https://redux.js.org/',
+//   author: 'Dan Abramov, Andrew Clark',
+//   num_comments: 2,
+//   points: 5,
+//   objectID: 1,
+// },
+// ]
+
+type Story = {
+  title: string,
+  url: string,
+  author: string,
+  num_comments: number,
+  points: number,
+  objectID: number
 }
 
-let list = []
+type Action = 
+  { type: 'SET_STORIES'; payload: Story[] }
+  | { type: 'DELETE_STORY'; payload: Story }
+  | { type: 'FILTER_STORY'; payload: string }
 
-const list2 = [
-  {
-  title: 'React',
-  url: 'https://reactjs.org/',
-  author: 'Jordan Walke',
-  num_comments: 3,
-  points: 4,
-  objectID: 0,
-  },
-  {
-  title: 'Redux',
-  url: 'https://redux.js.org/',
-  author: 'Dan Abramov, Andrew Clark',
-  num_comments: 2,
-  points: 5,
-  objectID: 1,
-},
-]
 
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query='
 
@@ -39,7 +47,7 @@ function App() {
   const [count, setCount] = useState(0)
   const [currentValue, setCurrentValue] = useState<string>('')
 
-  const storiesReducer = (stories , action) => {
+  const storiesReducer = (stories: Story[] , action: Action) => {
     switch (action.type) {
       case 'SET_STORIES':
         return action.payload
@@ -55,9 +63,8 @@ function App() {
 
   const [searchedStories, setSearchedStories] = useReducer(storiesReducer, [])
 
-  const removeOneItem = (item) => {
+  const removeOneItem = (item: Story) => {
     setSearchedStories({type: 'DELETE_STORY', payload: item})
-    
   }
 
   useEffect(() => {
@@ -132,11 +139,17 @@ function App() {
   )
 }
 
-function Search({currentValue, setCurrentValue, children}) {
+type SearchProps = {
+  currentValue: string, 
+  setCurrentValue: React.Dispatch<React.SetStateAction<string>>, 
+  children: ReactNode;
+}
+
+const Search: FC<SearchProps> =  ({currentValue, setCurrentValue, children}) => {
   console.log('Search Component')
   
-  function handleChange(e) {
-    const searchBox = document.querySelector("#search")
+  function handleChange() {
+    const searchBox = document.querySelector("#search") as HTMLInputElement
     console.log(searchBox)
     setCurrentValue(searchBox?.value)
     
@@ -152,7 +165,11 @@ function Search({currentValue, setCurrentValue, children}) {
   )
 }
 
-function List({list, removeOneItem}) {
+type ListProps = {
+  list: Story[],
+  removeOneItem: (item: Story) => void
+}
+const List: FC<ListProps> = ({list, removeOneItem}) => {
   console.log('List Component')
   if (!list || list.length === 0) {
     return <div>暂无数据，请尝试其他搜索条件</div>; // 空状态提示
@@ -163,12 +180,14 @@ function List({list, removeOneItem}) {
   )}</h1>
   )
 }
-
-function Item({element, removeOneItem}) {
+type ItemProps = {
+  element: Story,
+  removeOneItem: (item: Story) => void
+}
+const Item: FC<ItemProps> = ({element, removeOneItem}) => {
   console.log('Item Component')
 
-  function removeLi(e) {
-    console.dir(e.target)
+  function removeLi() {
     removeOneItem(element)
   }
   return (
