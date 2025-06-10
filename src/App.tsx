@@ -37,9 +37,9 @@ const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query='
 
 function App() {
   const [count, setCount] = useState(0)
-  const [currentValue, setCurrentValue] = useState('')
+  const [currentValue, setCurrentValue] = useState<string>('')
 
-  const storiesReducer = (stories, action) => {
+  const storiesReducer = (stories , action) => {
     switch (action.type) {
       case 'SET_STORIES':
         return action.payload
