@@ -13,5 +13,9 @@ export default defineConfig({
     }),
     Checker({ typescript: true })
   ],
+  test: {
+    environment: 'jsdom',
+    setupFiles: './src/test/setupTests.ts'
+  }
 
 })

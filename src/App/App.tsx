@@ -1,11 +1,13 @@
-import { useState, useEffect, useReducer, ReactNode } from 'react'
+import { useState, useEffect, useReducer} from 'react'
 // import * as React from 'react';
-import reactLogo from './assets/react.svg'
+import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
-import styles from './App.module.css'
+import styles from '../App.module.css'
 
-import Check from "./assets/check.svg?react";
+import { List } from "./List"
+import { Search } from "./SearchForm"
 
+import { Story } from './types'
 
 // const list2 = [
 //   {
@@ -26,18 +28,9 @@ import Check from "./assets/check.svg?react";
 // },
 // ]
 
-type Story = {
-  title: string,
-  url: string,
-  author: string,
-  num_comments: number,
-  points: number,
-  objectID: number
-}
-
 type Action = 
-  { type: 'SET_STORIES'; payload: Story[] }
-  | { type: 'DELETE_STORY'; payload: Story }
+  { type: 'SET_STORIES', payload: Story[] }
+  | { type: 'DELETE_STORY', payload: Story }
   | { type: 'FILTER_STORY'; payload: string }
 
 
@@ -136,67 +129,6 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </div>
-  )
-}
-
-type SearchProps = {
-  currentValue: string, 
-  setCurrentValue: React.Dispatch<React.SetStateAction<string>>, 
-  children: ReactNode;
-}
-
-const Search = ({currentValue, setCurrentValue, children} : SearchProps) => {
-  console.log('Search Component')
-  
-  function handleChange() {
-    const searchBox = document.querySelector("#search") as HTMLInputElement
-    console.log(searchBox)
-    setCurrentValue(searchBox?.value)
-    
-  }
-  return (
-    <div>
-    <label htmlFor="search">{children}</label> 
-    
-    <input id="search" type="text" name="search" />
-    <button onClick={handleChange} className={`${styles.button} ${styles.buttonLarge}`}><Check height="18px" width="18px" /></button>
-    <p>{currentValue}</p>
-    </div>
-  )
-}
-
-type ListProps = {
-  list: Story[],
-  removeOneItem: (item: Story) => void
-}
-const List = ({list, removeOneItem}: ListProps) => {
-  console.log('List Component')
-  if (!list || list.length === 0) {
-    return <div>暂无数据，请尝试其他搜索条件</div>; // 空状态提示
-  }
-  return (
-    <h1 className={styles.headlinePrimary}>{list.map(e => 
-      <Item key={e.objectID} element={e} removeOneItem={removeOneItem} />
-  )}</h1>
-  )
-}
-type ItemProps = {
-  element: Story,
-  removeOneItem: (item: Story) => void
-}
-const Item = ({element, removeOneItem}: ItemProps) => {
-  console.log('Item Component')
-
-  function removeLi() {
-    removeOneItem(element)
-  }
-  return (
-    <li key={element.objectID} className={styles.item}> 
-      <span> {element.title}</span>
-      <span> {element.author}</span> 
-      <span> {element.points}</span>
-      <span> <button data-id={element.objectID} onClick={removeLi}>delete</button></span>
-    </li>
   )
 }
 
