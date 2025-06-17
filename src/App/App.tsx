@@ -2,12 +2,12 @@ import { useState, useEffect, useReducer} from 'react'
 // import * as React from 'react';
 import reactLogo from '../assets/react.svg'
 import viteLogo from '/vite.svg'
-import styles from '../App.module.css'
+import styles from './App.module.css'
 
 import { List } from "./List"
 import { Search } from "./SearchForm"
 
-import { Story } from './types'
+import { Story, Action } from './types'
 
 // const list2 = [
 //   {
@@ -28,10 +28,7 @@ import { Story } from './types'
 // },
 // ]
 
-type Action = 
-  { type: 'SET_STORIES', payload: Story[] }
-  | { type: 'DELETE_STORY', payload: Story }
-  | { type: 'FILTER_STORY'; payload: string }
+
 
 
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query='

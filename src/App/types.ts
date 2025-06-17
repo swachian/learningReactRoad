@@ -6,3 +6,8 @@ export type Story = {
   points: number,
   objectID: number
 }
+
+export type Action = 
+  { type: 'SET_STORIES', payload: Story[] }
+  | { type: 'DELETE_STORY', payload: Story }
+  | { type: 'FILTER_STORY'; payload: string }

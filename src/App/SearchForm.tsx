@@ -1,4 +1,4 @@
-import styles from '../App.module.css'
+import styles from './App.module.css'
 import Check from "../assets/check.svg?react";
 import { ReactNode } from 'react'
 
