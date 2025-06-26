@@ -10,11 +10,8 @@ type SearchProps = {
 }
 
 const Search = ({currentValue, setCurrentValue, children} : SearchProps) => {
-  console.log('Search Component')
-  
   function handleChange() {
     const searchBox = document.querySelector("#search") as HTMLInputElement
-    console.log(searchBox)
     setCurrentValue(searchBox?.value)
     
   }

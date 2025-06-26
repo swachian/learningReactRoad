@@ -41,7 +41,6 @@ function addNewPizza(pizza: Omit<Pizza, "id">): Pizza | undefined{
 }
 
 addNewPizza({name: "Popo", price: 15})
-console.log(menu)
 
 function placeOrder(pizzaName: string): Order | undefined {
     const pizza = menu.find(p => p.name === pizzaName)
