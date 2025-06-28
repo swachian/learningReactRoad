@@ -37,6 +37,19 @@ function App() {
   const [count, setCount] = useState(0)
   const [currentValue, setCurrentValue] = useState<string>('')
 
+  const handleSearchValue = (text: string) => {
+    setCurrentValue(text)
+  }
+
+  const handleSubmitSearch = async () => {
+    const data = await getAyncData(currentValue)
+    setSearchedStories({type: 'SET_STORIES', payload: data})
+    // if (submitHistories.slice(-1)[0] !== currentValue) {
+    //   submitHistories.push(currentValue)
+    // }
+    // console.log(submitHistories)
+  }
+
   const storiesReducer = (stories: Story[] , action: Action) => {
     switch (action.type) {
       case 'SET_STORIES':
@@ -57,20 +70,7 @@ function App() {
     setSearchedStories({type: 'DELETE_STORY', payload: item})
   }
 
-  useEffect(() => {
-    // getAyncData(currentValue).then((data) => {
-    //   setSearchedStories({type: 'SET_STORIES', payload: data})
-      
-    // })
 
-    const fetch = async () => {
-      const data = await getAyncData(currentValue)
-      setSearchedStories({type: 'SET_STORIES', payload: data})
-    }
-    
-    fetch()
-
-  }, [currentValue])
 
   useEffect(() => {
 
@@ -84,13 +84,6 @@ function App() {
   }, [])
 
   async function getAyncData(param='react') {
-    // return new Promise((resolve) => {
-    //   setTimeout(() => resolve({list2}), 2000)
-    // })
-
-    // return fetch(`${API_ENDPOINT}${param}`)
-    //   .then(response => response.json())
-    //   .then(data => data.hits)
     const response = await fetch(`${API_ENDPOINT}${param}`)
     const json = await response.json()
     return json.hits
@@ -111,7 +104,7 @@ function App() {
       <List  list={searchedStories} removeOneItem={removeOneItem} />
 
 
-      <Search currentValue={currentValue} setCurrentValue={setCurrentValue}>
+      <Search currentValue={currentValue} onChange={handleSearchValue} onSubmit={handleSubmitSearch}>
         Search: &nbsp;&nbsp;
       </Search>
       <div className="card">

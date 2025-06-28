@@ -122,7 +122,7 @@ const Item = ({element, removeOneItem}: ItemProps) => {
   }
   return (
     <li key={element.objectID} className={styles.item}> 
-      <span> {element.title}</span>
+      <span> <a href={element.url}>{element.title}</a></span>
       <span> {element.author}</span> 
       <span> {element.points}</span>
       <span> <button data-id={element.objectID} onClick={removeLi}>delete</button></span>
