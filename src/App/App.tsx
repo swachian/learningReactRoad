@@ -7,7 +7,7 @@ import styles from './App.module.css'
 import { List } from "./List"
 import { Search } from "./SearchForm"
 
-import { Story, Action } from './types'
+import { Story, Action, SearchParam } from './types'
 
 // const list2 = [
 //   {
@@ -29,20 +29,19 @@ import { Story, Action } from './types'
 // ]
 
 
-
-
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query='
 
 function App() {
   const [count, setCount] = useState(0)
-  const [currentValue, setCurrentValue] = useState<string>('')
+  const [currentValue, setCurrentValue] = useState<SearchParam>({param: '', page: 0})
 
-  const handleSearchValue = (text: string) => {
-    setCurrentValue(text)
+  const handleSearchValue = (val: string) => {
+    setCurrentValue(prev => ({ ...prev, param: val }));
   }
 
   const handleSubmitSearch = async () => {
-    const data = await getAyncData(currentValue)
+    setCurrentValue(prev => ({...prev, page: 0}))
+    const data = await getAyncData(currentValue.param, 0)
     setSearchedStories({type: 'SET_STORIES', payload: data})
     // if (submitHistories.slice(-1)[0] !== currentValue) {
     //   submitHistories.push(currentValue)
@@ -54,6 +53,8 @@ function App() {
     switch (action.type) {
       case 'SET_STORIES':
         return action.payload
+      case 'LOAD_MORE_STORIES':
+        return stories.concat(action.payload)
       case 'DELETE_STORY':
         return stories.filter(s => s != action.payload)
       case 'FILTER_STORY':
@@ -83,10 +84,17 @@ function App() {
 
   }, [])
 
-  async function getAyncData(param='react') {
-    const response = await fetch(`${API_ENDPOINT}${param}`)
+  async function getAyncData(param='react', page=0) {
+    const response = await fetch(`${API_ENDPOINT}${param}&page=${page}`)
     const json = await response.json()
     return json.hits
+  }
+
+  const loadMoreList = async () => {
+    const nextPage = currentValue.page + 1
+    setCurrentValue(prev => ({...prev, page: nextPage}))
+    const data = await getAyncData(currentValue.param, nextPage)
+    setSearchedStories({type: 'LOAD_MORE_STORIES', payload: data})
   }
 
   return ( 
@@ -110,6 +118,9 @@ function App() {
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
+        </button>
+        <button onClick={loadMoreList}>
+          more
         </button>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR

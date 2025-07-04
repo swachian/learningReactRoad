@@ -1,12 +1,13 @@
 import styles from './App.module.css'
-import { useState} from 'react'
+import { useState, ReactNode} from 'react'
 
 import Check from "../assets/check.svg?react";
-import { ReactNode } from 'react'
+import {  } from 'react'
+import { SearchParam } from './types'
 
 
 type SearchProps = {
-  currentValue: string, 
+  currentValue: SearchParam, 
   onChange: (text: string) => void, 
   onSubmit: () => void,
   children: ReactNode;
@@ -16,8 +17,8 @@ const Search = ({currentValue, onChange, onSubmit, children} : SearchProps) => {
   const [histories, setHistories] = useState<string[]>([])
   
   const handleSubmit = () => {
-    if (!histories.includes(currentValue)) {
-      histories.push(currentValue)
+    if (!histories.includes(currentValue.param)) {
+      histories.push(currentValue.param)
       if (histories.length > 5) {
         histories.shift()
       }
@@ -30,9 +31,9 @@ const Search = ({currentValue, onChange, onSubmit, children} : SearchProps) => {
     <div>
     <label htmlFor="search">{children}</label> 
     
-    <input id="search" type="text" name="search" value={currentValue} onChange={(e) => onChange(e.target.value)}/>
+    <input id="search" type="text" name="search" value={currentValue.param} onChange={(e) => onChange(e.target.value)}/>
     <button onClick={handleSubmit} className={`${styles.button} ${styles.buttonLarge}`}><Check height="18px" width="18px" /></button>
-    <p>{currentValue}</p>
+    <p>{currentValue.param}</p>
     {
       histories.map(history => 
         <button 
