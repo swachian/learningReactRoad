@@ -1,0 +1,54 @@
+:root {
+  --font-f: 'Courier New', Courier, monospace;
+}
+body {
+  background-color: gray;
+}
+
+img {
+  max-width: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.container {
+  background-color: white;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.name, .skills p {
+  font-weight: bold;
+  font-family: var(--font-f);
+  font-size: 1rem;
+}
+
+.title {
+  font-family: sans-serif;
+  font-size: 0.6rem;
+  margin-top: 0.2rem;
+}
+
+.skillbuttons {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.skillbuttons div {
+  background-color: aqua;
+  padding: 5px 8px;
+  border-radius: 10px;
+  min-width: 40px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.foot {
+  font-size: 0.7rem;
+}
