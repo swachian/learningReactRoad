@@ -1,0 +1,57 @@
+body {
+  /* background-color: gray; */
+}
+h1 {
+  text-align: center;
+  font-weight: bold;
+}
+.logos {
+  height: 200px;
+  width: 100%;
+}
+
+.logos img {
+  max-height: 100%;
+  width: auto;
+}
+
+.level2_2 {
+  background-color: aquamarine;
+  padding: 40px;
+  border-radius: 10px;
+}
+.description p {
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.name {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.name input {
+  background-color: white;
+  border-radius: 8px;
+  border: none;
+  padding: 12px 12px;
+}
+
+.name input:focus {
+  box-shadow: 0 0 0 2px #007bff;
+  outline: none;
+}
+
+.level2_2 button {
+  display: block;
+  padding: 12px 16px;
+  width: 300px;
+  margin: 20px auto;
+  background-color: coral;
+  border: none;
+  border-radius: 20px;
+  color: white;
+}
